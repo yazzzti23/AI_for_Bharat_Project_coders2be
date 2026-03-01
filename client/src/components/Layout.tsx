@@ -18,7 +18,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col md:max-w-4xl lg:max-w-6xl mx-auto bg-background/50 relative md:shadow-2xl overflow-hidden md:my-8 md:rounded-3xl border-x border-t md:border-b border-border">
+    <div className="min-h-screen flex flex-col md:max-w-4xl lg:max-w-6xl mx-auto bg-background/50 relative md:shadow-2xl overflow-hidden md:my-8 md:rounded-3xl md:border border-border">
       {/* Top Header */}
       <header className="px-6 py-6 flex items-center justify-between z-10 relative bg-white/50 backdrop-blur-sm">
         <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
@@ -54,14 +54,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Main Content Area */}
       <main className="flex-1 overflow-y-auto pb-24 md:pb-8 px-4 sm:px-6 lg:px-8 relative z-0">
-        <div className="max-w-4xl mx-auto h-full">
+        <div className="max-w-md md:max-w-4xl mx-auto h-full">
           {children}
         </div>
       </main>
 
       {/* Bottom Navigation for Mobile Only */}
-      <nav className="fixed bottom-0 w-full md:hidden bg-white/80 backdrop-blur-xl border-t border-border z-50 pb-safe">
-        <div className="flex items-center justify-around px-2 py-3">
+      <nav className="fixed bottom-0 w-full left-0 right-0 md:hidden bg-white/80 backdrop-blur-xl border-t border-border z-50 pb-safe">
+        <div className="flex items-center justify-around px-2 py-3 max-w-md mx-auto">
           {navItems.map((item) => {
             const isActive = location === item.href;
             const Icon = item.icon;

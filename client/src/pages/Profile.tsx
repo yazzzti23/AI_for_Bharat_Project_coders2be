@@ -82,87 +82,93 @@ export default function Profile() {
         </div>
       </div>
 
-      <form onSubmit={handleSave} className="space-y-6">
-        <div className="glass-card p-6 rounded-3xl space-y-4">
-          <div>
-            <label className="block text-sm font-bold text-foreground mb-2">Full Name</label>
-            <input 
-              type="text"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              className="w-full px-4 py-3 bg-background border-2 border-border rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all text-foreground"
-              placeholder="Enter your name"
-              required
-            />
+      <form onSubmit={handleSave} className="space-y-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="glass-card p-6 md:p-8 rounded-3xl space-y-6">
+            <h3 className="text-xl font-bold mb-2">General Info</h3>
+            <div>
+              <label className="block text-sm font-bold text-foreground mb-2">Full Name</label>
+              <input 
+                type="text"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                className="w-full px-4 py-3 bg-background border-2 border-border rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all text-foreground"
+                placeholder="Enter your name"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-foreground mb-2 flex items-center gap-2">
+                <Phone className="w-4 h-4 text-muted-foreground" />
+                Emergency Contact
+              </label>
+              <input 
+                type="tel"
+                value={emergencyContact}
+                onChange={e => setEmergencyContact(e.target.value)}
+                className="w-full px-4 py-3 bg-background border-2 border-border rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all text-foreground"
+                placeholder="+1 (555) 000-0000"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-foreground mb-2 flex items-center gap-2">
+                <Languages className="w-4 h-4 text-muted-foreground" />
+                Preferred Language
+              </label>
+              <select 
+                value={language}
+                onChange={e => setLanguage(e.target.value)}
+                className="w-full px-4 py-3 bg-background border-2 border-border rounded-xl focus:outline-none focus:border-primary transition-all text-foreground appearance-none"
+              >
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+                <option value="hi">हिंदी</option>
+              </select>
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-bold text-foreground mb-2 flex items-center gap-2">
-              <Phone className="w-4 h-4 text-muted-foreground" />
-              Emergency Contact
-            </label>
-            <input 
-              type="tel"
-              value={emergencyContact}
-              onChange={e => setEmergencyContact(e.target.value)}
-              className="w-full px-4 py-3 bg-background border-2 border-border rounded-xl focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all text-foreground"
-              placeholder="+1 (555) 000-0000"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-bold text-foreground mb-2 flex items-center gap-2">
-              <Languages className="w-4 h-4 text-muted-foreground" />
-              Preferred Language
-            </label>
-            <select 
-              value={language}
-              onChange={e => setLanguage(e.target.value)}
-              className="w-full px-4 py-3 bg-background border-2 border-border rounded-xl focus:outline-none focus:border-primary transition-all text-foreground appearance-none"
-            >
-              <option value="en">English</option>
-              <option value="es">Español</option>
-              <option value="fr">Français</option>
-              <option value="hi">हिंदी</option>
-            </select>
+          <div className="glass-card p-6 md:p-8 rounded-3xl">
+            <label className="block text-xl font-bold text-foreground mb-4">My Allergies</label>
+            <p className="text-sm text-muted-foreground mb-6">Select all that apply to you. We'll check for these during every scan.</p>
+            <div className="flex flex-wrap gap-2 md:gap-3">
+              {ALL_ALLERGIES.map(allergy => {
+                const isActive = allergies.includes(allergy);
+                return (
+                  <button
+                    type="button"
+                    key={allergy}
+                    onClick={() => toggleAllergy(allergy)}
+                    className={`px-4 py-2.5 md:px-6 rounded-xl text-sm md:text-base font-bold transition-all duration-200 border-2 ${
+                      isActive 
+                        ? "bg-primary text-white border-primary shadow-md shadow-primary/20 scale-105" 
+                        : "bg-background text-muted-foreground border-border hover:border-primary/30"
+                    }`}
+                  >
+                    {allergy}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        <div className="glass-card p-6 rounded-3xl">
-          <label className="block text-lg font-bold text-foreground mb-4">My Allergies</label>
-          <div className="flex flex-wrap gap-2">
-            {ALL_ALLERGIES.map(allergy => {
-              const isActive = allergies.includes(allergy);
-              return (
-                <button
-                  type="button"
-                  key={allergy}
-                  onClick={() => toggleAllergy(allergy)}
-                  className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 border-2 ${
-                    isActive 
-                      ? "bg-primary text-white border-primary shadow-md shadow-primary/20 scale-105" 
-                      : "bg-background text-muted-foreground border-border hover:border-primary/30"
-                  }`}
-                >
-                  {allergy}
-                </button>
-              );
-            })}
-          </div>
+        <div className="flex justify-center pt-4">
+          <button
+            type="submit"
+            disabled={isPending}
+            className="w-full md:max-w-md py-5 rounded-2xl font-bold text-xl bg-foreground text-background shadow-xl hover:shadow-2xl hover:-translate-y-1 active:translate-y-0 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+          >
+            {isPending ? "Saving..." : (
+              <>
+                <Save className="w-6 h-6" />
+                Save Profile Preferences
+              </>
+            )}
+          </button>
         </div>
-
-        <button
-          type="submit"
-          disabled={isPending}
-          className="w-full py-4 rounded-2xl font-bold text-lg bg-foreground text-background shadow-xl hover:shadow-2xl hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
-        >
-          {isPending ? "Saving..." : (
-            <>
-              <Save className="w-5 h-5" />
-              Save Profile
-            </>
-          )}
-        </button>
       </form>
     </motion.div>
   );
